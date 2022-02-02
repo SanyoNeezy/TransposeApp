@@ -2,17 +2,18 @@ package com.example.wow_this_app.model;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class CapoProgression implements Comparator<CapoProgression> {
     public int fret;
-    public ArrayList<Chord> progression;
+    public List<Chord> progression;
 
     public CapoProgression(){
-        progression = new ArrayList<Chord>();
+        progression = new ArrayList<>();
         fret = 0;
     }
 
-    public CapoProgression(int fret, ArrayList<Chord> progression) {
+    public CapoProgression(int fret, List<Chord> progression) {
         this.fret = fret;
         this.progression = progression;
     }
@@ -29,7 +30,7 @@ public class CapoProgression implements Comparator<CapoProgression> {
         return i;
     }
 
-    public static int numberOfStandardChords(ArrayList <Chord> progression) { // throws InvalidChordException {
+    public static int numberOfStandardChords(List<Chord> progression) { // throws InvalidChordException {
         int i = 0;
         for (Chord chord : progression) {
             if (chord.isStandardChord()) i++;

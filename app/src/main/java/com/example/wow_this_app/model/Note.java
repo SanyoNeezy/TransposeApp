@@ -1,154 +1,150 @@
 package com.example.wow_this_app.model;
 
-public class Note {
+import android.os.Build;
 
-    public int index;
-    private static final int n = 12;
+import androidx.annotation.RequiresApi;
 
-    public Note(int index){
+import java.util.Optional;
+
+public enum Note {
+    A(0, "A"),
+    A_(1, "A#"),
+    B(2, "B"),
+    C(3, "C"),
+    C_(4, "C#"),
+    D(5, "D"),
+    D_(6, "D#"),
+    E(7, "E"),
+    F(8, "F"),
+    F_(9, "F#"),
+    G(10, "G"),
+    G_(11, "G#");
+
+    private final int index;
+    private final String name;
+
+    Note(int index, String name) {
         this.index = index;
+        this.name = name;
     }
 
-    public Note(String note){
-        this.index = getNoteIndex(note);
+    public int getIndex() {
+        return index;
     }
 
-    // The note A has the number 0
-    private static int A() {
-        return 0;
+    public String getName() {
+        return name;
     }
 
-    // The note A# has the number 1
-    private static int A_() {
-        return 1;
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Note transpose(int halfSteps) {
+        int newIndex = (index + halfSteps) % values().length;
+        return Note.find(newIndex)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid index: " + newIndex));
     }
 
-    // The note B has the number 1
-    private static int B() {
-        return 2;
-    }
-
-    // The note C has the number 3
-    private static int C() {
-        return 3;
-    }
-
-    // The note C# has the number 4
-    private static int C_() {
-        return 4;
-    }
-
-    // The note D has the number 5
-    private static int D() {
-        return 5;
-    }
-
-    // The note D# has the number 6
-    private static int D_() {
-        return 6;
-    }
-
-    // The note E has the number 7
-    private static int E() {
-        return 7;
-    }
-
-    // The note F has the number 8
-    private static int F() {
-        return 8;
-    }
-
-    // The note F# has the number 9
-    private static int F_() {
-        return 9;
-    }
-
-    // The note G has the number 10
-    private static int G() {
-        return 10;
-    }
-
-    // The note G# has the number 11
-    private static int G_() {
-        return 11;
-    }
-
-
-    public static int getNoteIndex(String note) {
-        switch (note) {
-            case "A":
-                return 0;
-            case "A#":
-                return 1;
-            case "B":
-                return 2;
-            case "C":
-                return 3;
-            case "C#":
-                return 4;
-            case "D":
-                return 5;
-            case "D#":
-                return 6;
-            case "E":
-                return 7;
-            case "F":
-                return 8;
-            case "F#":
-                return 9;
-            case "G":
-                return 10;
-            case "G#":
-                return 11;
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static Optional<Note> find(int index) {
+        for (Note value : Note.values()) {
+            if (value.index == index) {
+                return Optional.of(value);
+            }
         }
-        return -1;
-    }
-    public static String getNoteName(int index) {
-        switch (index) {
-            case 0:
-                return "A";
-            case 1:
-                return "A#";
-            case 2:
-                return "B";
-            case 3:
-                return "C";
-            case 4:
-                return "C#";
-            case 5:
-                return "D";
-            case 6:
-                return "D#";
-            case 7:
-                return "E";
-            case 8:
-                return "F";
-            case 9:
-                return "F#";
-            case 10:
-                return "G";
-            case 11:
-                return "G#";
-        }
-        return "[EXPLOSION!]";
-    }
-
-    public static int getNoteDifference(String note1, String note2 ){
-        int dif = getNoteIndex(note1) - getNoteIndex(note2);
-        return dif > 6 ? dif : n - dif;
-    }
-
-    public String transposeNote(int halfsteps){
-        return getNoteName((index + halfsteps) % n);
-    }
-
-
-    public void increment() {
-        index = (index + 1) % n;
+        return Optional.empty();
     }
 
     @Override
     public String toString() {
-        return getNoteName(index);
+        return name;
     }
 }
+
+//public class Note {
+//
+//    public int index;
+//    private static final int n = 12;
+//
+//    public Note(String note) {
+//
+//        this.index = getNoteIndex(note);
+//    }
+//
+//    public static int getNoteIndex(String note) {
+//        switch (note) {
+//            case "A":
+//                return 0;
+//            case "A#":
+//                return 1;
+//            case "B":
+//                return 2;
+//            case "C":
+//                return 3;
+//            case "C#":
+//                return 4;
+//            case "D":
+//                return 5;
+//            case "D#":
+//                return 6;
+//            case "E":
+//                return 7;
+//            case "F":
+//                return 8;
+//            case "F#":
+//                return 9;
+//            case "G":
+//                return 10;
+//            case "G#":
+//                return 11;
+//        }
+//        return -1;
+//    }
+//
+//    public static String getNoteName(int index) {
+//        switch (index) {
+//            case 0:
+//                return "A";
+//            case 1:
+//                return "A#";
+//            case 2:
+//                return "B";
+//            case 3:
+//                return "C";
+//            case 4:
+//                return "C#";
+//            case 5:
+//                return "D";
+//            case 6:
+//                return "D#";
+//            case 7:
+//                return "E";
+//            case 8:
+//                return "F";
+//            case 9:
+//                return "F#";
+//            case 10:
+//                return "G";
+//            case 11:
+//                return "G#";
+//        }
+//        return "[EXPLOSION!]";
+//    }
+//
+//    public static int getNoteDifference(String note1, String note2) {
+//        int dif = getNoteIndex(note1) - getNoteIndex(note2);
+//        return dif > 6 ? dif : n - dif;
+//    }
+//
+//    public String transposeNote(int halfsteps) {
+//        return getNoteName((index + halfsteps) % n);
+//    }
+//
+//
+//    public void increment() {
+//        index = (index + 1) % n;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return getNoteName(index);
+//    }
+//}

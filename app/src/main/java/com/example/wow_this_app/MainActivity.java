@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,9 +15,12 @@ import android.widget.TextView;
 
 import com.example.wow_this_app.model.CapoProgression;
 import com.example.wow_this_app.model.Chord;
+import com.example.wow_this_app.model.ChordType;
+import com.example.wow_this_app.model.Note;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Selected root note: " + selRoot);
                 System.out.println("Selected chord type: " + selChord);
 
-                progression.add(new Chord(selRoot, selChord));
+                progression.add(new Chord(Note.valueOf(selRoot), ChordType.of(selChord)));
                 textViewUserInput.setText("Your Progression: \n" + progression);
 
-                ArrayList<CapoProgression> suggestions =  Chord.getPossibleCapoProgressions(progression.progression);
+                List<CapoProgression> suggestions =  Chord.getPossibleCapoProgressions(progression.progression);
 
                 String sugStr = "Best would be to try these: \n";
                 for(int i = 0; i < suggestions.size(); i++){
